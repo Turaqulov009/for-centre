@@ -1,0 +1,121 @@
+{% extends "portal/student/student_base.html" %}
+{% block title %}Asosiy — FOR CENTRE{% endblock %}
+{% block content %}
+<section class="welcome-hero" id="home">
+  <div class="welcome-copy">
+    <p class="eyebrow">FOR CENTRE Space</p>
+    <h1>Salom, {{ request.profile.display_name }}!</h1>
+    <p class="welcome-lead">Bugungi vazifalar, kurslar va progressingiz shu yerda. Davom eting — yangi bosqich kutmoqda.</p>
+    <div class="welcome-actions">
+      <a class="btn btn-primary" href="{% url 'portal:student_courses' %}">Kurslarim</a>
+      <a class="btn btn-soft" href="{% url 'portal:student_homeworks' %}">Vazifalar</a>
+    </div>
+  </div>
+  <div class="welcome-visual" aria-hidden="true">
+    <div class="planet"></div>
+    <div class="astronaut"><i class="fa-solid fa-user-astronaut"></i></div>
+  </div>
+</section>
+
+<section class="metrics">
+  <article class="metric-card">
+    <div class="metric-icon blue"><i class="fa-solid fa-graduation-cap"></i></div>
+    <div><strong>{{ stats.courses_count }}</strong><span>kurs</span></div>
+  </article>
+  <article class="metric-card">
+    <div class="metric-icon orange"><i class="fa-solid fa-bolt"></i></div>
+    <div><strong>{{ stats.avg_progress }}%</strong><span>progress</span></div>
+  </article>
+  <article class="metric-card">
+    <div class="metric-icon green"><i class="fa-solid fa-rocket"></i></div>
+    <div><strong>{{ stats.homeworks_count }}</strong><span>vazifa</span></div>
+  </article>
+  <article class="metric-card">
+    <div class="metric-icon cyan"><i class="fa-solid fa-trophy"></i></div>
+    <div><strong>{{ stats.certificates_count }}</strong><span>sertifikat</span></div>
+  </article>
+</section>
+
+<section class="panel">
+  <div class="panel-head">
+    <div><p class="eyebrow">Learning</p><h2>Kurslarim</h2></div>
+    <a class="btn-mini" href="{% url 'portal:student_courses' %}">Hammasi</a>
+  </div>
+  {% if enrollments %}
+    <div class="course-grid">
+      {% for e in enrollments %}
+        <a class="course-card" href="{% url 'portal:student_course_detail' e.course_id %}">
+          <span class="course-badge it">{{ e.course.subject|default:"Kurs" }}</span>
+          <h3>{{ e.course.title }}</h3>
+          <p>{% if e.course.short_description %}{{ e.course.short_description|truncatechars:90 }}{% else %}{{ e.course.teacher|default:"Mentor biriktirilmagan" }}{% endif %}</p>
+          <div class="course-foot">
+            <span>
+              <span class="progress-bar" aria-hidden="true"><span style="width:{{ e.progress_percent }}%"></span></span>
+              {{ e.progress_percent }}%
+            </span>
+            <span class="text-link">Davom etish →</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="section-lead">Hali kursga biriktirilmagansiz. Admin sizga login/parol berib, enrollment qo‘shadi.</p>
+  {% endif %}
+</section>
+
+<section class="panel">
+  <div class="panel-head">
+    <div><p class="eyebrow">Mission</p><h2>Vazifalar</h2></div>
+    <a class="btn-mini" href="{% url 'portal:student_homeworks' %}">Hammasi</a>
+  </div>
+  <div class="space-task-list">
+    {% for row in homework_rows %}
+      <a class="space-task {% if row.done %}is-done{% endif %}" href="{% url 'portal:student_homework_detail' row.homework.pk %}">
+        <span class="space-task-icon"><i class="fa-solid {% if row.done %}fa-circle-check{% else %}fa-rocket{% endif %}"></i></span>
+        <span class="space-task-body">
+          <strong>{{ row.homework.title }}</strong>
+          <small>{{ row.homework.course }}{% if row.homework.due_date %} · {{ row.homework.due_date|date:"d.m.Y" }}{% endif %}</small>
+        </span>
+        <span class="space-task-status">{% if row.done %}Bajarilgan{% else %}Ochish{% endif %}</span>
+      </a>
+    {% empty %}
+      <p class="section-lead">Hozircha vazifa yo‘q.</p>
+    {% endfor %}
+  </div>
+</section>
+
+{% if news_list %}
+<section class="panel">
+  <div class="panel-head"><div><p class="eyebrow">Yangiliklar</p><h2>Markaz yangiliklari</h2></div></div>
+  <div class="course-grid">
+    {% for n in news_list %}
+      <article class="course-card">
+        <span class="course-badge">News</span>
+        <h3>{{ n.title }}</h3>
+        <p>{% if n.excerpt %}{{ n.excerpt }}{% else %}{{ n.body|truncatechars:100 }}{% endif %}</p>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if notifications %}
+<section class="panel">
+  <div class="panel-head">
+    <div><p class="eyebrow">Inbox</p><h2>So‘nggi xabarlar</h2></div>
+    <a class="btn-mini" href="{% url 'portal:student_notifications' %}">Hammasi</a>
+  </div>
+  <div class="space-task-list">
+    {% for item in notifications %}
+      <div class="space-task {% if not item.is_read %}is-new{% endif %}">
+        <span class="space-task-icon"><i class="fa-solid fa-bell"></i></span>
+        <span class="space-task-body">
+          <strong>{{ item.title }}</strong>
+          <small>{{ item.created_at|date:"d.m.Y H:i" }}</small>
+        </span>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

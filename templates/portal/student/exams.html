@@ -1,0 +1,24 @@
+{% extends "portal/student/student_base.html" %}
+{% block title %}Exam — Student{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head"><div><p class="eyebrow">Tests</p><h2>Exam</h2></div></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Nomi</th><th>Kurs</th><th>Oxirgi natija</th><th></th></tr></thead>
+      <tbody>
+        {% for row in rows %}
+          <tr>
+            <td>{{ row.exam.title }}</td>
+            <td>{{ row.exam.course }}</td>
+            <td>{% if row.attempt %}{{ row.attempt.score }}/{{ row.attempt.max_score }}{% else %}—{% endif %}</td>
+            <td><a class="btn-mini" href="{% url 'portal:student_exam_take' row.exam.pk %}">Boshlash</a></td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4">Imtihon yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

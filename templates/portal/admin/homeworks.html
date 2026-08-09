@@ -1,0 +1,33 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}Homework — Admin{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div><p class="eyebrow">Learning</p><h2>Homework</h2></div>
+    <a class="btn btn-primary" href="{% url 'portal:admin_homework_create' %}">+ Yangi</a>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Nomi</th><th>Kurs</th><th>Muddat</th><th>Holat</th><th>Amallar</th></tr></thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{{ item.title }}</td>
+            <td>{{ item.course }}</td>
+            <td>{% if item.due_date %}{{ item.due_date|date:"d.m.Y H:i" }}{% else %}—{% endif %}</td>
+            <td>{% if item.is_published %}Chop etilgan{% else %}Qoralama{% endif %}</td>
+            <td class="actions">
+              <a class="btn-mini" href="{% url 'portal:admin_homework_edit' item.pk %}">Tahrirlash</a>
+              <form method="post" action="{% url 'portal:admin_homework_delete' item.pk %}" onsubmit="return confirm('O‘chirishni tasdiqlaysizmi?');">
+                {% csrf_token %}<button class="btn-mini ghost" type="submit">O‘chirish</button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5">Uy vazifa yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

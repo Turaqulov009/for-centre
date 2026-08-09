@@ -1,0 +1,217 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ site.site_name|default:"FOR CENTRE" }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800&family=Oxanium:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#home">
+        <span class="brand-mark">FC</span>
+        <span class="brand-text">{{ site.site_name|default:"FOR CENTRE" }}</span>
+      </a>
+      <div class="topbar-right">
+        <a class="topbar-cta" href="{% url 'accounts:login' %}">Kirish</a>
+        <a class="topbar-cta" href="{% url 'accounts:register' %}">Ro‘yxatdan o‘tish</a>
+        <a class="topbar-cta" href="#contact">Ariza</a>
+      </div>
+    </header>
+
+    <aside class="sidebar" aria-label="Menyu">
+      <nav class="sidebar-nav">
+        <a class="sidebar-link active" href="#home"><i class="fa-solid fa-house"></i><span>Asosiy</span></a>
+        <a class="sidebar-link" href="#courses"><i class="fa-solid fa-graduation-cap"></i><span>Kurslar</span></a>
+        <a class="sidebar-link" href="#features"><i class="fa-solid fa-star"></i><span>Afzalliklar</span></a>
+        <a class="sidebar-link" href="#teachers"><i class="fa-solid fa-chalkboard-user"></i><span>Mentorlar</span></a>
+        <a class="sidebar-link" href="#news"><i class="fa-solid fa-newspaper"></i><span>Yangiliklar</span></a>
+        <a class="sidebar-link" href="#faq"><i class="fa-solid fa-circle-question"></i><span>FAQ</span></a>
+        <a class="sidebar-link" href="#contact"><i class="fa-solid fa-comments"></i><span>Aloqa</span></a>
+      </nav>
+    </aside>
+
+    <main class="content" id="home">
+      {% if banners %}
+        {% for banner in banners %}
+          <section class="welcome-hero">
+            <div class="welcome-copy">
+              <p class="eyebrow">{{ site.site_name }}</p>
+              <h1>{{ banner.title }}</h1>
+              {% if banner.subtitle %}<p class="welcome-lead">{{ banner.subtitle }}</p>{% endif %}
+              <div class="welcome-actions">
+                {% if banner.button_text and banner.button_url %}
+                  <a class="btn btn-primary" href="{{ banner.button_url }}">{{ banner.button_text }}</a>
+                {% endif %}
+                <a class="btn btn-soft" href="#contact">Bog‘lanish</a>
+              </div>
+            </div>
+            <div class="welcome-visual" aria-hidden="true">
+              <div class="planet"></div>
+              <div class="astronaut"><i class="fa-solid fa-user-astronaut"></i></div>
+            </div>
+          </section>
+        {% endfor %}
+      {% else %}
+        <section class="welcome-hero">
+          <div class="welcome-copy">
+            <p class="eyebrow">{{ site.site_name }}</p>
+            <h1>{% if site.hero_title %}{{ site.hero_title }}{% else %}O‘quv markaziga xush kelibsiz{% endif %}</h1>
+            <p class="welcome-lead">{% if site.hero_text %}{{ site.hero_text }}{% else %}Kontent admin panel orqali qo‘shiladi.{% endif %}</p>
+            <div class="welcome-actions">
+              <a class="btn btn-primary" href="#courses">Kurslar</a>
+              <a class="btn btn-soft" href="#contact">Bog‘lanish</a>
+            </div>
+          </div>
+          <div class="welcome-visual" aria-hidden="true">
+            <div class="planet"></div>
+            <div class="astronaut"><i class="fa-solid fa-user-astronaut"></i></div>
+          </div>
+        </section>
+      {% endif %}
+
+      <section class="metrics">
+        <article class="metric-card">
+          <div class="metric-icon green"><i class="fa-solid fa-trophy"></i></div>
+          <div><strong>{{ stats.graduates_count }}</strong><span>bitiruvchi</span></div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-icon blue"><i class="fa-solid fa-users"></i></div>
+          <div><strong>{{ stats.students_count }}</strong><span>o‘quvchi</span></div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-icon orange"><i class="fa-solid fa-book-open"></i></div>
+          <div><strong>{{ stats.courses_count }}</strong><span>kurs</span></div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-icon cyan"><i class="fa-solid fa-chalkboard-user"></i></div>
+          <div><strong>{{ stats.teachers_count }}</strong><span>mentor</span></div>
+        </article>
+      </section>
+
+      <section class="panel" id="courses">
+        <div class="panel-head"><div><p class="eyebrow">Kurslar</p><h2>Kurslar</h2></div></div>
+        {% if courses %}
+          <div class="course-grid">
+            {% for course in courses %}
+              <article class="course-card">
+                {% if course.subject %}<div class="course-badge">{{ course.subject.title }}</div>{% endif %}
+                <h3>{{ course.title }}</h3>
+                {% if course.short_description %}<p>{{ course.short_description }}</p>{% endif %}
+                {% if course.duration %}<div class="course-foot"><span>{{ course.duration }}</span></div>{% endif %}
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="section-lead empty-hint">Hozircha kurs yo‘q.</p>
+        {% endif %}
+      </section>
+
+      <section class="panel" id="features">
+        <div class="panel-head"><div><p class="eyebrow">Afzalliklar</p><h2>Nima uchun biz</h2></div></div>
+        {% if features %}
+          <div class="feature-list">
+            {% for item in features %}
+              <article class="feature-item">
+                <div class="feature-icon"><i class="{{ item.icon|default:'fa-solid fa-check' }}"></i></div>
+                <div>
+                  <h3>{{ item.title }}</h3>
+                  {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="section-lead empty-hint">Hozircha afzalliklar yo‘q.</p>
+        {% endif %}
+      </section>
+
+      <section class="panel" id="teachers">
+        <div class="panel-head"><div><p class="eyebrow">Mentorlar</p><h2>O‘qituvchilar</h2></div></div>
+        {% if teachers %}
+          <div class="course-grid">
+            {% for t in teachers %}
+              <article class="course-card">
+                <h3>{{ t.full_name }}</h3>
+                {% if t.specialty %}<p>{{ t.specialty }}</p>{% endif %}
+                {% if t.bio %}<p>{{ t.bio }}</p>{% endif %}
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="section-lead empty-hint">Hozircha mentor yo‘q.</p>
+        {% endif %}
+      </section>
+
+      <section class="panel" id="news">
+        <div class="panel-head"><div><p class="eyebrow">Yangiliklar</p><h2>So‘nggi yangiliklar</h2></div></div>
+        {% if news_list %}
+          <div class="course-grid">
+            {% for n in news_list %}
+              <article class="course-card">
+                <h3>{{ n.title }}</h3>
+                {% if n.excerpt %}<p>{{ n.excerpt }}</p>{% endif %}
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="section-lead empty-hint">Hozircha yangilik yo‘q.</p>
+        {% endif %}
+      </section>
+
+      <section class="panel" id="faq">
+        <div class="panel-head"><div><p class="eyebrow">FAQ</p><h2>Savol-javob</h2></div></div>
+        {% if faqs %}
+          <div class="feature-list">
+            {% for f in faqs %}
+              <article class="feature-item">
+                <div>
+                  <h3>{{ f.question }}</h3>
+                  <p>{{ f.answer }}</p>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="section-lead empty-hint">Hozircha FAQ yo‘q.</p>
+        {% endif %}
+      </section>
+
+      <section class="panel contact-panel" id="contact">
+        <div class="contact-grid">
+          <div>
+            <p class="eyebrow">Aloqa</p>
+            <h2>Bog‘lanish</h2>
+            <div class="contact-details">
+              {% if site.phone %}<p><i class="fa-solid fa-phone"></i> {{ site.phone }}</p>{% endif %}
+              {% if site.email %}<p><i class="fa-solid fa-envelope"></i> {{ site.email }}</p>{% endif %}
+              {% if site.telegram %}<p><i class="fa-brands fa-telegram"></i> {{ site.telegram }}</p>{% endif %}
+              {% if site.address %}<p><i class="fa-solid fa-location-dot"></i> {{ site.address }}</p>{% endif %}
+              {% if site.work_time %}<p><i class="fa-regular fa-clock"></i> {{ site.work_time }}</p>{% endif %}
+              {% if not site.phone and not site.email and not site.telegram and not site.address %}
+                <p class="section-lead empty-hint">Kontakt admin panel orqali qo‘shiladi.</p>
+              {% endif %}
+            </div>
+          </div>
+          <form class="contact-form" method="post" action="{% url 'portal:landing' %}#contact">
+            {% csrf_token %}
+            <label>Ism {{ form.name }}</label>
+            <label>Telefon {{ form.phone }}{% if form.phone.errors %}<span class="field-error">{{ form.phone.errors.0 }}</span>{% endif %}</label>
+            <label>Email {{ form.email }}</label>
+            <label>Kurs {{ form.course_interest }}</label>
+            <label>Izoh {{ form.message }}</label>
+            <button class="btn btn-primary" type="submit">Yuborish</button>
+            {% if messages %}{% for message in messages %}<p class="form-status is-success">{{ message }}</p>{% endfor %}{% endif %}
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

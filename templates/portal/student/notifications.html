@@ -1,0 +1,37 @@
+{% extends "portal/student/student_base.html" %}
+{% block title %}Notification — Student{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div><p class="eyebrow">Inbox</p><h2>Bildirishnomalar</h2></div>
+    <form method="post" action="{% url 'portal:student_notifications_read_all' %}">
+      {% csrf_token %}
+      <button class="btn-mini" type="submit">Hammasini o‘qildi</button>
+    </form>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Sarlavha</th><th>Xabar</th><th>Sana</th><th></th></tr></thead>
+      <tbody>
+        {% for item in items %}
+          <tr {% if not item.is_read %}style="font-weight:600"{% endif %}>
+            <td>{{ item.title }}</td>
+            <td>{{ item.message|truncatechars:80 }}</td>
+            <td>{{ item.created_at|date:"d.m.Y H:i" }}</td>
+            <td class="actions">
+              {% if item.link %}<a class="btn-mini" href="{{ item.link }}">Ochish</a>{% endif %}
+              {% if not item.is_read %}
+                <form method="post" action="{% url 'portal:student_notification_read' item.pk %}">
+                  {% csrf_token %}<button class="btn-mini ghost" type="submit">O‘qildi</button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4">Bildirishnoma yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

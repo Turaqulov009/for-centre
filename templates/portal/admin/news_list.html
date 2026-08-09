@@ -1,0 +1,39 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}Yangiliklar — Admin{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">CMS</p>
+      <h2>Yangiliklar</h2>
+    </div>
+    <a class="btn btn-primary" href="{% url 'portal:admin_news_create' %}">+ Yangi</a>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr><th>Sarlavha</th><th>Slug</th><th>Holat</th><th>Sana</th><th>Amallar</th></tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{{ item.title }}</td>
+            <td><code>{{ item.slug }}</code></td>
+            <td>{% if item.is_published %}Chop etilgan{% else %}Qoralama{% endif %}</td>
+            <td>{{ item.published_at|date:"d.m.Y H:i"|default:"—" }}</td>
+            <td class="actions">
+              <a class="btn-mini" href="{% url 'portal:admin_news_edit' item.pk %}">Tahrirlash</a>
+              <form method="post" action="{% url 'portal:admin_news_delete' item.pk %}" onsubmit="return confirm('O‘chirishni tasdiqlaysizmi?');">
+                {% csrf_token %}
+                <button class="btn-mini ghost" type="submit">O‘chirish</button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5">Yangilik yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

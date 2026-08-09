@@ -1,0 +1,25 @@
+{% extends "portal/student/student_base.html" %}
+{% block title %}Sertifikatlar — Student{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head"><div><p class="eyebrow">Awards</p><h2>Sertifikatlarim</h2></div></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Nomi</th><th>Kurs</th><th>Kod</th><th>Sana</th><th></th></tr></thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{{ item.title }}</td>
+            <td>{{ item.course }}</td>
+            <td>{{ item.certificate_code }}</td>
+            <td>{{ item.issued_at|date:"d.m.Y" }}</td>
+            <td>{% if item.file %}<a class="btn-mini" href="{{ item.file.url }}" target="_blank">Yuklab olish</a>{% else %}—{% endif %}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5">Sertifikat yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

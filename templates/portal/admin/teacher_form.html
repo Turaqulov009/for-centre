@@ -1,0 +1,22 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}{{ title }} — Admin{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head"><div><p class="eyebrow">O‘qituvchilar</p><h2>{{ title }}</h2></div></div>
+  <form method="post" class="contact-form grid-form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label>To‘liq ism {{ form.full_name }}{% if form.full_name.errors %}<span class="field-error">{{ form.full_name.errors.0 }}</span>{% endif %}</label>
+    <label>Mutaxassislik {{ form.specialty }}</label>
+    <label class="full">Bio {{ form.bio }}</label>
+    <label>Foto {{ form.photo }}</label>
+    <label>Telefon {{ form.phone }}</label>
+    <label>Email {{ form.email }}</label>
+    <label>User {{ form.user }}</label>
+    <label>Tartib {{ form.sort_order }}</label>
+    <label class="check-inline">{{ form.is_active }} Aktiv</label>
+    <label class="check-inline">{{ form.show_on_landing }} Landingda ko‘rsatish</label>
+    <button class="btn btn-primary" type="submit">Saqlash</button>
+    <a class="text-link" href="{% url 'portal:admin_teachers' %}">Orqaga</a>
+  </form>
+</section>
+{% endblock %}

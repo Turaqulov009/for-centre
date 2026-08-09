@@ -1,0 +1,31 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}Fanlar — Admin{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div><p class="eyebrow">Learning</p><h2>Fanlar</h2></div>
+    <a class="btn btn-primary" href="{% url 'portal:admin_subject_create' %}">+ Yangi fan</a>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Nomi</th><th>Holat</th><th>Amallar</th></tr></thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{{ item.title }}</td>
+            <td>{% if item.is_active %}Aktiv{% else %}Yashirin{% endif %}</td>
+            <td class="actions">
+              <a class="btn-mini" href="{% url 'portal:admin_subject_edit' item.pk %}">Tahrirlash</a>
+              <form method="post" action="{% url 'portal:admin_subject_delete' item.pk %}" onsubmit="return confirm('O‘chirishni tasdiqlaysizmi?');">
+                {% csrf_token %}<button class="btn-mini ghost" type="submit">O‘chirish</button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="3">Fan yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — FOR CENTRE</title>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Oxanium:wght@600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}" />
+</head>
+<body class="portal-body">
+  <div class="app-shell portal-shell">
+    <header class="topbar">
+      <a class="brand" href="{% url 'portal:admin_dashboard' %}">
+        <span class="brand-mark">FC</span>
+        <span class="brand-text">Admin Panel</span>
+      </a>
+      <div class="topbar-right">
+        <div class="stat-chip"><i class="fa-solid fa-user-shield"></i><span>{{ request.profile.display_name }}</span></div>
+        <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="topbar-cta" type="submit">Chiqish</button></form>
+      </div>
+    </header>
+    <aside class="sidebar"><nav class="sidebar-nav">{% include "portal/admin/_sidebar.html" %}</nav></aside>
+    <main class="content portal-content">
+      {% if messages %}{% for message in messages %}<div class="flash flash-{{ message.tags }}">{{ message }}</div>{% endfor %}{% endif %}
+      <section class="welcome-hero portal-hero">
+        <div class="welcome-copy">
+          <p class="eyebrow">Admin</p>
+          <h1>Boshqaruv paneli</h1>
+          <p class="welcome-lead">Foydalanuvchilarni faqat siz yaratasiz. Register ochiq emas.</p>
+          <div class="welcome-actions">
+            <a class="btn btn-primary" href="{% url 'portal:admin_users' %}">Users</a>
+            <a class="btn btn-soft" href="{% url 'portal:admin_settings' %}">Sozlamalar</a>
+            <a class="btn btn-soft" href="{% url 'portal:admin_leads' %}">Arizalar</a>
+          </div>
+        </div>
+      </section>
+      <section class="metrics">
+        <article class="metric-card"><div class="metric-icon green"><i class="fa-solid fa-trophy"></i></div><div><strong>{{ stats.graduates_count }}</strong><span>bitiruvchi</span></div></article>
+        <article class="metric-card"><div class="metric-icon blue"><i class="fa-solid fa-users"></i></div><div><strong>{{ stats.students_count }}</strong><span>student</span></div></article>
+        <article class="metric-card"><div class="metric-icon orange"><i class="fa-solid fa-book"></i></div><div><strong>{{ stats.courses_count }}</strong><span>kurs</span></div></article>
+        <article class="metric-card"><div class="metric-icon cyan"><i class="fa-solid fa-chalkboard-user"></i></div><div><strong>{{ stats.teachers_count }}</strong><span>mentor</span></div></article>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

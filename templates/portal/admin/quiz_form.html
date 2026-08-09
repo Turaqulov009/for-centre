@@ -1,0 +1,18 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}{{ title }} — Admin{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head"><div><p class="eyebrow">Quiz</p><h2>{{ title }}</h2></div></div>
+  <form method="post" class="contact-form grid-form">
+    {% csrf_token %}
+    <label>Kurs {{ form.course }}{% if form.course.errors %}<span class="field-error">{{ form.course.errors.0 }}</span>{% endif %}</label>
+    <label>Modul {{ form.module }}</label>
+    <label class="full">Nomi {{ form.title }}{% if form.title.errors %}<span class="field-error">{{ form.title.errors.0 }}</span>{% endif %}</label>
+    <label class="full">Tavsif {{ form.description }}</label>
+    <label>Vaqt limiti (daqiqa) {{ form.time_limit_minutes }}</label>
+    <label class="check-inline">{{ form.is_published }} Chop etilgan</label>
+    <button class="btn btn-primary" type="submit">Saqlash</button>
+    <a class="text-link" href="{% url 'portal:admin_quizzes' %}">Orqaga</a>
+  </form>
+</section>
+{% endblock %}

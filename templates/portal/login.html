@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kirish — FOR CENTRE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800&family=Oxanium:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}" />
+</head>
+<body class="login-body">
+  <div class="login-card">
+    <a class="brand" href="{% url 'home' %}">
+      <span class="brand-mark">FC</span>
+      <span class="brand-text">FOR <strong>CENTRE</strong></span>
+    </a>
+    <h1>Tizimga kirish</h1>
+    <p class="login-lead">Admin, o‘qituvchi va student uchun alohida kabinet.</p>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="flash flash-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" class="contact-form login-form">
+      {% csrf_token %}
+      <label>
+        Login
+        {{ form.username }}
+        {% if form.username.errors %}<span class="field-error">{{ form.username.errors.0 }}</span>{% endif %}
+      </label>
+      <label>
+        Parol
+        {{ form.password }}
+        {% if form.password.errors %}<span class="field-error">{{ form.password.errors.0 }}</span>{% endif %}
+      </label>
+      {% if form.non_field_errors %}
+        <p class="form-status is-error">{{ form.non_field_errors.0 }}</p>
+      {% endif %}
+      <button class="btn btn-primary" type="submit">Kirish</button>
+    </form>
+  </div>
+</body>
+</html>

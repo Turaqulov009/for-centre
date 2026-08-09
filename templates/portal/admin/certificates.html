@@ -1,0 +1,33 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}Sertifikatlar — Admin{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div><p class="eyebrow">Learning</p><h2>Sertifikatlar</h2></div>
+    <a class="btn btn-primary" href="{% url 'portal:admin_certificate_create' %}">+ Yangi</a>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Student</th><th>Kurs</th><th>Kod</th><th>Sana</th><th>Amallar</th></tr></thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{% if item.student.profile %}{{ item.student.profile.display_name }}{% else %}{{ item.student.username }}{% endif %}</td>
+            <td>{{ item.course }}</td>
+            <td>{{ item.certificate_code }}</td>
+            <td>{{ item.issued_at|date:"d.m.Y" }}</td>
+            <td class="actions">
+              <a class="btn-mini" href="{% url 'portal:admin_certificate_edit' item.pk %}">Tahrirlash</a>
+              <form method="post" action="{% url 'portal:admin_certificate_delete' item.pk %}" onsubmit="return confirm('O‘chirishni tasdiqlaysizmi?');">
+                {% csrf_token %}<button class="btn-mini ghost" type="submit">O‘chirish</button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5">Sertifikat yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

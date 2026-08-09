@@ -1,0 +1,17 @@
+{% extends "portal/student/student_base.html" %}
+{% block title %}Profil — Student{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head"><div><p class="eyebrow">Account</p><h2>Profil</h2></div></div>
+  <form method="post" enctype="multipart/form-data" class="contact-form grid-form">
+    {% csrf_token %}
+    <label>To‘liq ism {{ form.full_name }}{% if form.full_name.errors %}<span class="field-error">{{ form.full_name.errors.0 }}</span>{% endif %}</label>
+    <label>Telefon {{ form.phone }}</label>
+    <label>Tug‘ilgan sana {{ form.date_of_birth }}</label>
+    <label>Avatar {{ form.avatar }}</label>
+    <label class="full">Bio {{ form.bio }}</label>
+    <p class="login-lead full">Email: <strong>{{ request.user.email|default:"—" }}</strong> · Login: <strong>{{ request.user.username }}</strong></p>
+    <button class="btn btn-primary" type="submit">Saqlash</button>
+  </form>
+</section>
+{% endblock %}

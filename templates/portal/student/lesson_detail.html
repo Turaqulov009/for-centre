@@ -1,0 +1,27 @@
+{% extends "portal/student/student_base.html" %}
+{% block title %}{{ lesson.title }} — Student{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">{{ course.title }} · {{ lesson.module.title }}</p>
+      <h2>{{ lesson.title }}</h2>
+    </div>
+    <a class="btn-mini ghost" href="{% url 'portal:student_course_detail' course.pk %}">Kursga</a>
+  </div>
+  {% if lesson.video_url %}
+    <p><a class="btn btn-soft" href="{{ lesson.video_url }}" target="_blank" rel="noopener">Video ochish</a></p>
+  {% endif %}
+  <div class="lesson-body">{{ lesson.content|linebreaks }}</div>
+  <div style="margin-top:1.25rem;display:flex;gap:0.75rem;align-items:center">
+    {% if progress.is_completed %}
+      <span class="stat-chip">Tugallangan</span>
+    {% else %}
+      <form method="post" action="{% url 'portal:student_lesson_complete' lesson.pk %}">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit">Tugallandi deb belgilash</button>
+      </form>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Admin — FOR CENTRE{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Oxanium:wght@600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}" />
+</head>
+<body class="portal-body">
+  <div class="app-shell portal-shell">
+    <header class="topbar">
+      <a class="brand" href="{% url 'portal:admin_dashboard' %}">
+        <span class="brand-mark">FC</span>
+        <span class="brand-text">Admin Panel</span>
+      </a>
+      <div class="topbar-right">
+        <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="topbar-cta" type="submit">Chiqish</button></form>
+      </div>
+    </header>
+    <aside class="sidebar"><nav class="sidebar-nav">{% include "portal/admin/_sidebar.html" %}</nav></aside>
+    <main class="content portal-content">
+      {% if messages %}{% for message in messages %}<div class="flash flash-{{ message.tags }}">{{ message }}</div>{% endfor %}{% endif %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</body>
+</html>

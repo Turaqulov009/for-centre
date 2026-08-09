@@ -1,0 +1,39 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}{{ exam.title }} — Savollar{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">{{ exam.course }}</p>
+      <h2>{{ exam.title }} — savollar</h2>
+    </div>
+    <div class="actions">
+      <a class="btn btn-primary" href="{% url 'portal:admin_exam_question_create' exam.pk %}">+ Savol</a>
+      <a class="btn-mini ghost" href="{% url 'portal:admin_exams' %}">Imtihonlar</a>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Savol</th><th>Ball</th><th>Variantlar</th><th>Amallar</th></tr></thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{{ item.sort_order }}</td>
+            <td>{{ item.text|truncatechars:80 }}</td>
+            <td>{{ item.points }}</td>
+            <td>{{ item.choices.count }}</td>
+            <td class="actions">
+              <a class="btn-mini" href="{% url 'portal:admin_exam_question_edit' item.pk %}">Tahrirlash</a>
+              <form method="post" action="{% url 'portal:admin_exam_question_delete' item.pk %}" onsubmit="return confirm('O‘chirishni tasdiqlaysizmi?');">
+                {% csrf_token %}<button class="btn-mini ghost" type="submit">O‘chirish</button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5">Savol yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

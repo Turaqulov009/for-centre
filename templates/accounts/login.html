@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kirish — FOR CENTRE</title>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Oxanium:wght@600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}" />
+</head>
+<body class="login-body">
+  <div class="login-card">
+    <a class="brand" href="{% url 'portal:landing' %}">
+      <span class="brand-mark">FC</span>
+      <span class="brand-text">FOR <strong>CENTRE</strong></span>
+    </a>
+    <h1>Tizimga kirish</h1>
+    <p class="login-lead">Admin bergan login/parol bilan kiring. Birinchi kirishda yangi parol so‘raladi.</p>
+    {% if messages %}{% for message in messages %}<div class="flash flash-{{ message.tags }}">{{ message }}</div>{% endfor %}{% endif %}
+    <form method="post" class="contact-form login-form">
+      {% csrf_token %}
+      <label>Login (username yoki email) {{ form.username }}</label>
+      <label>Parol {{ form.password }}</label>
+      {% if form.non_field_errors %}<p class="form-status is-error">{{ form.non_field_errors.0 }}</p>{% endif %}
+      <button class="btn btn-primary" type="submit">Kirish</button>
+    </form>
+    <p class="auth-switch"><a href="{% url 'accounts:forgot_password' %}">Parolni unutdingizmi?</a></p>
+    <p class="auth-switch">Akkount yo‘qmi? <a href="{% url 'accounts:register' %}">Ro‘yxatdan o‘tish</a></p>
+  </div>
+</body>
+</html>

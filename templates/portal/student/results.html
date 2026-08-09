@@ -1,0 +1,64 @@
+{% extends "portal/student/student_base.html" %}
+{% block title %}Natijalar — Student{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head"><div><p class="eyebrow">Results</p><h2>Quiz natijalari</h2></div></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Quiz</th><th>Kurs</th><th>Ball</th><th>Sana</th></tr></thead>
+      <tbody>
+        {% for a in quiz_attempts %}
+          <tr>
+            <td><a href="{% url 'portal:student_quiz_result' a.pk %}">{{ a.quiz.title }}</a></td>
+            <td>{{ a.quiz.course }}</td>
+            <td>{{ a.score }}/{{ a.max_score }}</td>
+            <td>{{ a.started_at|date:"d.m.Y H:i" }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4">Natija yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="panel">
+  <div class="panel-head"><div><p class="eyebrow">Results</p><h2>Exam natijalari</h2></div></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Exam</th><th>Kurs</th><th>Ball</th><th>Sana</th></tr></thead>
+      <tbody>
+        {% for a in exam_attempts %}
+          <tr>
+            <td><a href="{% url 'portal:student_exam_result' a.pk %}">{{ a.exam.title }}</a></td>
+            <td>{{ a.exam.course }}</td>
+            <td>{{ a.score }}/{{ a.max_score }}</td>
+            <td>{{ a.started_at|date:"d.m.Y H:i" }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4">Natija yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="panel">
+  <div class="panel-head"><div><p class="eyebrow">Results</p><h2>Homework</h2></div></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Vazifa</th><th>Kurs</th><th>Holat</th><th>Ball</th></tr></thead>
+      <tbody>
+        {% for s in homework_subs %}
+          <tr>
+            <td>{{ s.homework.title }}</td>
+            <td>{{ s.homework.course }}</td>
+            <td>{{ s.get_status_display }}</td>
+            <td>{% if s.score is not None %}{{ s.score }}{% else %}—{% endif %}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4">Topshiriq yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

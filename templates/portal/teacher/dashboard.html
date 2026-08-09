@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher — FOR CENTRE</title>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Oxanium:wght@600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}" />
+</head>
+<body class="portal-body">
+  <div class="app-shell portal-shell">
+    <header class="topbar">
+      <a class="brand" href="{% url 'portal:teacher_dashboard' %}">
+        <span class="brand-mark">FC</span>
+        <span class="brand-text">Teacher Panel</span>
+      </a>
+      <div class="topbar-right">
+        <div class="stat-chip"><span>{{ request.profile.display_name }}</span></div>
+        <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="topbar-cta" type="submit">Chiqish</button></form>
+      </div>
+    </header>
+    <main class="content portal-content" style="margin-left:0;width:100%">
+      <section class="welcome-hero portal-hero">
+        <div class="welcome-copy">
+          <p class="eyebrow">Teacher</p>
+          <h1>Salom, {{ request.profile.display_name }}!</h1>
+          <p class="welcome-lead">Teacher paneli keyingi bosqichlarda kengaytiriladi.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

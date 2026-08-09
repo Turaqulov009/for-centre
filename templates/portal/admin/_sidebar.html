@@ -1,0 +1,51 @@
+<a class="sidebar-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}" href="{% url 'portal:admin_dashboard' %}">
+  <i class="fa-solid fa-gauge"></i><span>Dashboard</span>
+</a>
+<a class="sidebar-link {% if 'user' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_users' %}">
+  <i class="fa-solid fa-users"></i><span>Users</span>
+</a>
+<a class="sidebar-link {% if 'subject' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_subjects' %}">
+  <i class="fa-solid fa-book-open"></i><span>Fanlar</span>
+</a>
+<a class="sidebar-link {% if 'teacher' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_teachers' %}">
+  <i class="fa-solid fa-chalkboard-user"></i><span>O‘qituvchilar</span>
+</a>
+<a class="sidebar-link {% if 'course' in request.resolver_match.url_name or 'module' in request.resolver_match.url_name or 'lesson' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_courses' %}">
+  <i class="fa-solid fa-graduation-cap"></i><span>Kurslar</span>
+</a>
+<a class="sidebar-link {% if 'enrollment' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_enrollments' %}">
+  <i class="fa-solid fa-user-plus"></i><span>Enrollment</span>
+</a>
+<a class="sidebar-link {% if 'homework' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_homeworks' %}">
+  <i class="fa-solid fa-pen-to-square"></i><span>Homework</span>
+</a>
+<a class="sidebar-link {% if 'quiz' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_quizzes' %}">
+  <i class="fa-solid fa-list-check"></i><span>Quiz</span>
+</a>
+<a class="sidebar-link {% if 'exam' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_exams' %}">
+  <i class="fa-solid fa-file-circle-check"></i><span>Exam</span>
+</a>
+<a class="sidebar-link {% if 'certificate' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_certificates' %}">
+  <i class="fa-solid fa-certificate"></i><span>Sertifikatlar</span>
+</a>
+<a class="sidebar-link {% if 'notification' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_notifications' %}">
+  <i class="fa-solid fa-bell"></i><span>Bildirishnomalar</span>
+</a>
+<a class="sidebar-link {% if request.resolver_match.url_name == 'admin_settings' %}active{% endif %}" href="{% url 'portal:admin_settings' %}">
+  <i class="fa-solid fa-gear"></i><span>Sozlamalar</span>
+</a>
+<a class="sidebar-link {% if 'banner' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_banners' %}">
+  <i class="fa-solid fa-images"></i><span>Bannerlar</span>
+</a>
+<a class="sidebar-link {% if 'feature' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_features' %}">
+  <i class="fa-solid fa-star"></i><span>Afzalliklar</span>
+</a>
+<a class="sidebar-link {% if 'news' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_news' %}">
+  <i class="fa-solid fa-newspaper"></i><span>Yangiliklar</span>
+</a>
+<a class="sidebar-link {% if 'faq' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_faqs' %}">
+  <i class="fa-solid fa-circle-question"></i><span>FAQ</span>
+</a>
+<a class="sidebar-link {% if 'lead' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:admin_leads' %}">
+  <i class="fa-solid fa-inbox"></i><span>Arizalar</span>
+</a>

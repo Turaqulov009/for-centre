@@ -1,0 +1,48 @@
+{% extends "portal/base.html" %}
+{% block title %}Guruhlar — Admin{% endblock %}
+{% block sidebar %}{% include "portal/admin/_sidebar.html" %}{% endblock %}
+{% block content %}
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">Guruhlar</p>
+        <h2>Yangi guruh</h2>
+      </div>
+    </div>
+    <form method="post" class="contact-form grid-form">
+      {% csrf_token %}
+      <label>Guruh nomi {{ form.name }}</label>
+      <label>Kurs {{ form.course_name }}</label>
+      <label>O‘qituvchi {{ form.teacher }}</label>
+      <label class="full">Studentlar
+        <div class="checkbox-grid">{{ form.students }}</div>
+      </label>
+      <label class="check-inline">{{ form.is_active }} Faol</label>
+      <button class="btn btn-primary" type="submit">Yaratish</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><h2>Mavjud guruhlar</h2></div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Guruh</th><th>Kurs</th><th>O‘qituvchi</th><th>Studentlar</th><th></th></tr>
+        </thead>
+        <tbody>
+          {% for g in groups %}
+            <tr>
+              <td>{{ g.name }}</td>
+              <td>{{ g.course_name }}</td>
+              <td>{% if g.teacher %}{{ g.teacher.profile.display_name }}{% else %}—{% endif %}</td>
+              <td>{{ g.students.count }}</td>
+              <td><a class="btn-mini" href="{% url 'admin_group_edit' g.id %}">Tahrirlash</a></td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="5">Guruh yo‘q.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

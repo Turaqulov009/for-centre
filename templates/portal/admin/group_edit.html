@@ -1,0 +1,25 @@
+{% extends "portal/base.html" %}
+{% block title %}Guruhni tahrirlash — Admin{% endblock %}
+{% block sidebar %}{% include "portal/admin/_sidebar.html" %}{% endblock %}
+{% block content %}
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">Tahrirlash</p>
+        <h2>{{ group.name }}</h2>
+      </div>
+    </div>
+    <form method="post" class="contact-form grid-form">
+      {% csrf_token %}
+      <label>Guruh nomi {{ form.name }}</label>
+      <label>Kurs {{ form.course_name }}</label>
+      <label>O‘qituvchi {{ form.teacher }}</label>
+      <label class="full">Studentlar
+        <div class="checkbox-grid">{{ form.students }}</div>
+      </label>
+      <label class="check-inline">{{ form.is_active }} Faol</label>
+      <button class="btn btn-primary" type="submit">Saqlash</button>
+      <a class="text-link" href="{% url 'admin_groups' %}">Orqaga</a>
+    </form>
+  </section>
+{% endblock %}

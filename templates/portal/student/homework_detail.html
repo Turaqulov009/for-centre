@@ -1,0 +1,28 @@
+{% extends "portal/student/student_base.html" %}
+{% block title %}{{ homework.title }} — Homework{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">{{ homework.course }}</p>
+      <h2>{{ homework.title }}</h2>
+    </div>
+    <a class="btn-mini ghost" href="{% url 'portal:student_homeworks' %}">Orqaga</a>
+  </div>
+  <div class="lesson-body">{{ homework.description|linebreaks }}</div>
+  {% if homework.due_date %}<p class="login-lead">Muddat: {{ homework.due_date|date:"d.m.Y H:i" }}</p>{% endif %}
+  {% if submission %}
+    <p class="login-lead">Holat: <strong>{{ submission.get_status_display }}</strong>
+      {% if submission.score is not None %} · Ball: {{ submission.score }}{% endif %}
+    </p>
+    {% if submission.feedback %}<p>{{ submission.feedback }}</p>{% endif %}
+  {% endif %}
+  <form method="post" enctype="multipart/form-data" class="contact-form" style="margin-top:1rem">
+    {% csrf_token %}
+    <label>Javob {{ form.answer_text }}</label>
+    <label>Fayl {{ form.attachment }}</label>
+    {% if form.non_field_errors %}<p class="form-status is-error">{{ form.non_field_errors.0 }}</p>{% endif %}
+    <button class="btn btn-primary" type="submit">{% if submission %}Qayta topshirish{% else %}Topshirish{% endif %}</button>
+  </form>
+</section>
+{% endblock %}

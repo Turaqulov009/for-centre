@@ -1,0 +1,78 @@
+{% extends "portal/base.html" %}
+{% block title %}Yo‘qlama — Admin{% endblock %}
+{% block sidebar %}{% include "portal/admin/_sidebar.html" %}{% endblock %}
+{% block content %}
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">Yo‘qlama</p>
+        <h2>Guruhni tanlang va belgilang</h2>
+      </div>
+    </div>
+
+    <form method="get" class="inline-filter">
+      <label>
+        Guruh
+        <select name="group" onchange="this.form.submit()">
+          <option value="">— Tanlang —</option>
+          {% for g in groups %}
+            <option value="{{ g.id }}" {% if selected_group and selected_group.id == g.id %}selected{% endif %}>
+              {{ g.name }} ({{ g.course_name }})
+            </option>
+          {% endfor %}
+        </select>
+      </label>
+    </form>
+
+    {% if selected_group and form %}
+      <form method="post" class="attendance-form">
+        {% csrf_token %}
+        <input type="hidden" name="group" value="{{ selected_group.id }}" />
+        <label class="date-field">Sana {{ form.date }}</label>
+
+        {% if rows %}
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Student</th><th>Holat</th><th>Izoh</th></tr>
+              </thead>
+              <tbody>
+                {% for row in rows %}
+                  <tr>
+                    <td>{{ row.student.profile.display_name }}</td>
+                    <td>{{ row.status }}</td>
+                    <td>{{ row.note }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <button class="btn btn-primary" type="submit">Yo‘qlamani saqlash</button>
+        {% else %}
+          <p class="section-lead">Bu guruhda faol student yo‘q.</p>
+        {% endif %}
+      </form>
+    {% endif %}
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><h2>So‘nggi yo‘qlamalar</h2></div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Sana</th><th>Guruh</th><th>Student</th><th>Holat</th></tr></thead>
+        <tbody>
+          {% for a in history %}
+            <tr>
+              <td>{{ a.date }}</td>
+              <td>{{ a.group.name }}</td>
+              <td>{{ a.student.profile.display_name }}</td>
+              <td><span class="badge status-{{ a.status }}">{{ a.get_status_display }}</span></td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4">Hali yo‘qlama yo‘q.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

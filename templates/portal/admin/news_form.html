@@ -1,0 +1,25 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}{{ title }} — Admin{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">Yangiliklar</p>
+      <h2>{{ title }}</h2>
+    </div>
+  </div>
+  <form method="post" class="contact-form grid-form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label class="full">Sarlavha {{ form.title }}{% if form.title.errors %}<span class="field-error">{{ form.title.errors.0 }}</span>{% endif %}</label>
+    <label>Slug {{ form.slug }}{% if form.slug.errors %}<span class="field-error">{{ form.slug.errors.0 }}</span>{% endif %}<small class="field-hint">Bo‘sh qoldirilsa avtomatik.</small></label>
+    <label class="full">Qisqa matn {{ form.excerpt }}</label>
+    <label class="full">Matn {{ form.body }}</label>
+    <label>Muqova {{ form.cover }}</label>
+    <label>Chop etish sanasi {{ form.published_at }}{% if form.published_at.errors %}<span class="field-error">{{ form.published_at.errors.0 }}</span>{% endif %}</label>
+    <label class="check-inline">{{ form.is_published }} Chop etilgan</label>
+    {% if form.non_field_errors %}<p class="form-status is-error">{{ form.non_field_errors.0 }}</p>{% endif %}
+    <button class="btn btn-primary" type="submit">Saqlash</button>
+    <a class="text-link" href="{% url 'portal:admin_news' %}">Orqaga</a>
+  </form>
+</section>
+{% endblock %}

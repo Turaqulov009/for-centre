@@ -1,0 +1,39 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}Modullar — {{ course.title }}{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">{{ course.title }}</p>
+      <h2>Modullar</h2>
+    </div>
+    <div class="welcome-actions">
+      <a class="btn btn-soft" href="{% url 'portal:admin_courses' %}">Kurslar</a>
+      <a class="btn btn-primary" href="{% url 'portal:admin_module_create' course.pk %}">+ Modul</a>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Nomi</th><th>Tartib</th><th>Holat</th><th>Amallar</th></tr></thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{{ item.title }}</td>
+            <td>{{ item.sort_order }}</td>
+            <td>{% if item.is_published %}Chop etilgan{% else %}Yashirin{% endif %}</td>
+            <td class="actions">
+              <a class="btn-mini" href="{% url 'portal:admin_module_lessons' item.pk %}">Darslar</a>
+              <a class="btn-mini" href="{% url 'portal:admin_module_edit' item.pk %}">Tahrirlash</a>
+              <form method="post" action="{% url 'portal:admin_module_delete' item.pk %}" onsubmit="return confirm('O‘chirishni tasdiqlaysizmi?');">
+                {% csrf_token %}<button class="btn-mini ghost" type="submit">O‘chirish</button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4">Modul yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

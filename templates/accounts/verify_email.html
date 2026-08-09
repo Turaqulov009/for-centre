@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emailni tasdiqlang — FOR CENTRE</title>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Oxanium:wght@600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}" />
+</head>
+<body class="login-body">
+  <div class="login-card">
+    <span class="brand-mark">FC</span>
+    <h1>Emailni tasdiqlang</h1>
+    <p class="login-lead">
+      Student paneliga kirish uchun email manzilingizni tasdiqlang.
+      {% if email %}<br /><strong>{{ email }}</strong>{% endif %}
+    </p>
+    {% if messages %}{% for message in messages %}<div class="flash flash-{{ message.tags }}">{{ message }}</div>{% endfor %}{% endif %}
+    <p class="login-lead">Pochtangizdagi havolani oching. Kelmasa, qayta yuborishingiz mumkin.</p>
+    <form method="post" class="contact-form login-form">
+      {% csrf_token %}
+      <button class="btn btn-primary" type="submit">Havolani qayta yuborish</button>
+    </form>
+    <form method="post" action="{% url 'accounts:logout' %}" style="margin-top:1rem">{% csrf_token %}<button class="btn-mini ghost" type="submit">Chiqish</button></form>
+  </div>
+</body>
+</html>

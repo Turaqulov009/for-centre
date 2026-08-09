@@ -1,0 +1,27 @@
+{% extends "portal/student/student_base.html" %}
+{% block title %}Kurslarim — FOR CENTRE{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head"><div><p class="eyebrow">Space</p><h2>Kurslarim</h2></div></div>
+  {% if enrollments %}
+    <div class="course-grid">
+      {% for e in enrollments %}
+        <a class="course-card" href="{% url 'portal:student_course_detail' e.course_id %}">
+          <span class="course-badge it">{{ e.course.subject|default:"Kurs" }}</span>
+          <h3>{{ e.course.title }}</h3>
+          <p>{% if e.course.short_description %}{{ e.course.short_description }}{% else %}{{ e.course.teacher|default:"—" }}{% endif %}</p>
+          <div class="course-foot">
+            <span>
+              <span class="progress-bar"><span style="width:{{ e.progress_percent }}%"></span></span>
+              {{ e.progress_percent }}%
+            </span>
+            <span class="text-link">Ochish →</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="section-lead">Kurslar admin tomonidan biriktiriladi. Login/parolni admindan oling.</p>
+  {% endif %}
+</section>
+{% endblock %}

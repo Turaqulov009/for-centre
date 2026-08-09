@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Users — Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Oxanium:wght@600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}" />
+</head>
+<body class="portal-body">
+  <div class="app-shell portal-shell">
+    <header class="topbar">
+      <a class="brand" href="{% url 'portal:admin_dashboard' %}"><span class="brand-mark">FC</span><span class="brand-text">Admin Panel</span></a>
+      <div class="topbar-right">
+        <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="topbar-cta" type="submit">Chiqish</button></form>
+      </div>
+    </header>
+    <aside class="sidebar"><nav class="sidebar-nav">{% include "portal/admin/_sidebar.html" %}</nav></aside>
+    <main class="content portal-content">
+      {% if messages %}{% for message in messages %}<div class="flash flash-{{ message.tags }}">{{ message }}</div>{% endfor %}{% endif %}
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Users</p>
+            <h2>Foydalanuvchilar</h2>
+          </div>
+          <a class="btn btn-primary" href="{% url 'portal:admin_user_create' %}">+ Yangi user</a>
+        </div>
+
+        <form method="get" class="inline-filter" style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem">
+          <input type="search" name="q" value="{{ q }}" placeholder="Qidirish..." style="min-height:42px;border:1.5px solid var(--stroke);border-radius:12px;padding:.55rem .75rem;font:inherit" />
+          <select name="role" onchange="this.form.submit()">
+            <option value="">Barcha role</option>
+            <option value="student" {% if role == 'student' %}selected{% endif %}>Student</option>
+            <option value="teacher" {% if role == 'teacher' %}selected{% endif %}>Teacher</option>
+            <option value="admin" {% if role == 'admin' %}selected{% endif %}>Admin</option>
+          </select>
+          <button class="btn-mini" type="submit">Filter</button>
+        </form>
+
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Ism</th>
+                <th>Login</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Holat</th>
+                <th>Parol</th>
+                <th>Amallar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in profiles %}
+                <tr>
+                  <td>{{ p.display_name }}</td>
+                  <td>{{ p.user.username }}</td>
+                  <td>{{ p.user.email|default:"—" }}</td>
+                  <td><span class="badge">{{ p.get_role_display }}</span></td>
+                  <td>{% if p.user.is_active %}Aktiv{% else %}Deaktiv{% endif %}</td>
+                  <td>{% if p.must_change_password %}Vaqtinchalik{% else %}O‘rnatilgan{% endif %}</td>
+                  <td class="actions">
+                    <a class="btn-mini" href="{% url 'portal:admin_user_edit' p.user_id %}">Tahrirlash</a>
+                    <a class="btn-mini ghost" href="{% url 'portal:admin_user_password' p.user_id %}">Parol</a>
+                    {% if p.user_id != request.user.id %}
+                      <form method="post" action="{% url 'portal:admin_user_toggle' p.user_id %}">
+                        {% csrf_token %}
+                        <button class="btn-mini ghost" type="submit">{% if p.user.is_active %}Deaktiv{% else %}Aktiv{% endif %}</button>
+                      </form>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="7">Foydalanuvchi yo‘q.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% if not is_super_admin %}
+          <p class="section-lead" style="margin-top:1rem">Admin role yaratish faqat Super Admin uchun.</p>
+        {% endif %}
+      </section>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+{% extends "portal/base.html" %}
+{% block title %}Yo‘qlama — {{ group.name }}{% endblock %}
+{% block sidebar %}
+  <a class="sidebar-link" href="{% url 'teacher_dashboard' %}"><i class="fa-solid fa-house"></i><span>Asosiy</span></a>
+  <a class="sidebar-link active" href="{% url 'teacher_attendance' group.id %}">
+    <i class="fa-solid fa-clipboard-check"></i><span>{{ group.name }}</span>
+  </a>
+{% endblock %}
+{% block content %}
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">Yo‘qlama</p>
+        <h2>{{ group.name }} · {{ group.course_name }}</h2>
+      </div>
+    </div>
+
+    <form method="post" class="attendance-form">
+      {% csrf_token %}
+      <label class="date-field">Sana {{ form.date }}</label>
+
+      {% if rows %}
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Student</th><th>Holat</th><th>Izoh</th></tr>
+            </thead>
+            <tbody>
+              {% for row in rows %}
+                <tr>
+                  <td>{{ row.student.profile.display_name }}</td>
+                  <td>{{ row.status }}</td>
+                  <td>{{ row.note }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <button class="btn btn-primary" type="submit">Yo‘qlamani saqlash</button>
+      {% else %}
+        <p class="section-lead">Guruhda student yo‘q.</p>
+      {% endif %}
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><h2>Tarix</h2></div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Sana</th><th>Student</th><th>Holat</th><th>Izoh</th></tr></thead>
+        <tbody>
+          {% for a in history %}
+            <tr>
+              <td>{{ a.date }}</td>
+              <td>{{ a.student.profile.display_name }}</td>
+              <td><span class="badge status-{{ a.status }}">{{ a.get_status_display }}</span></td>
+              <td>{{ a.note|default:"—" }}</td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4">Tarix bo‘sh.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

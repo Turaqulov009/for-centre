@@ -1,0 +1,16 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}{{ title }} — Admin{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head"><div><p class="eyebrow">Bildirishnoma</p><h2>{{ title }}</h2></div></div>
+  <form method="post" class="contact-form grid-form">
+    {% csrf_token %}
+    <label class="full">Qabul qiluvchi {{ form.recipient }}{% if form.recipient.errors %}<span class="field-error">{{ form.recipient.errors.0 }}</span>{% endif %}</label>
+    <label class="full">Sarlavha {{ form.title }}{% if form.title.errors %}<span class="field-error">{{ form.title.errors.0 }}</span>{% endif %}</label>
+    <label class="full">Xabar {{ form.message }}</label>
+    <label class="full">Link {{ form.link }}{% if form.link.help_text %}<small>{{ form.link.help_text }}</small>{% endif %}</label>
+    <button class="btn btn-primary" type="submit">Yuborish</button>
+    <a class="text-link" href="{% url 'portal:admin_notifications' %}">Orqaga</a>
+  </form>
+</section>
+{% endblock %}

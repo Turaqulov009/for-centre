@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}FOR CENTRE Portal{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800&family=Oxanium:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}" />
+</head>
+<body class="portal-body">
+  <div class="app-shell portal-shell">
+    <header class="topbar">
+      <a class="brand" href="{% url 'portal:home' %}">
+        <span class="brand-mark">FC</span>
+        <span class="brand-text">FOR <strong>CENTRE</strong></span>
+      </a>
+      <div class="topbar-right">
+        <div class="stat-chip">
+          <i class="fa-solid fa-user"></i>
+          <span>{{ request.user.profile.display_name|default:request.user.username }} · {{ request.user.profile.get_role_display }}</span>
+        </div>
+        <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="topbar-cta" type="submit">Chiqish</button></form>
+      </div>
+    </header>
+
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        {% block sidebar %}{% endblock %}
+        <a class="sidebar-link" href="{% url 'portal:landing' %}"><i class="fa-solid fa-globe"></i><span>Sayt</span></a>
+      </nav>
+    </aside>
+
+    <main class="content portal-content">
+      {% if messages %}
+        <div class="flash-list">
+          {% for message in messages %}
+            <div class="flash flash-{{ message.tags }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}{{ title }} — Admin{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">FAQ</p>
+      <h2>{{ title }}</h2>
+    </div>
+  </div>
+  <form method="post" class="contact-form grid-form">
+    {% csrf_token %}
+    <label class="full">Savol {{ form.question }}{% if form.question.errors %}<span class="field-error">{{ form.question.errors.0 }}</span>{% endif %}</label>
+    <label class="full">Javob {{ form.answer }}{% if form.answer.errors %}<span class="field-error">{{ form.answer.errors.0 }}</span>{% endif %}</label>
+    <label>Tartib {{ form.sort_order }}</label>
+    <label class="check-inline">{{ form.is_active }} Aktiv</label>
+    <button class="btn btn-primary" type="submit">Saqlash</button>
+    <a class="text-link" href="{% url 'portal:admin_faqs' %}">Orqaga</a>
+  </form>
+</section>
+{% endblock %}

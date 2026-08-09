@@ -1,0 +1,25 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}Sozlamalar — Admin{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">CMS</p>
+      <h2>Sayt sozlamalari</h2>
+    </div>
+  </div>
+  <p class="section-lead">Bu ma’lumotlar asosiy sahifada chiqadi.</p>
+  <form method="post" class="contact-form grid-form" style="margin-top:1rem" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label>Sayt nomi {{ form.site_name }}</label>
+    <label class="full">Hero sarlavha {{ form.hero_title }}</label>
+    <label class="full">Hero matn {{ form.hero_text }}</label>
+    <label>Telefon {{ form.phone }}</label>
+    <label>Email {{ form.email }}</label>
+    <label>Telegram {{ form.telegram }}</label>
+    <label>Manzil {{ form.address }}</label>
+    <label>Ish vaqti {{ form.work_time }}</label>
+    <button class="btn btn-primary" type="submit">Saqlash</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "portal/student/student_base.html" %}
+{% block title %}{{ exam.title }} — Exam{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">{{ exam.course }}</p>
+      <h2>{{ exam.title }}</h2>
+      {% if exam.time_limit_minutes %}<p class="login-lead">Vaqt limiti: {{ exam.time_limit_minutes }} daqiqa</p>{% endif %}
+    </div>
+  </div>
+  {% if exam.description %}<p>{{ exam.description }}</p>{% endif %}
+  <form method="post" class="contact-form">
+    {% csrf_token %}
+    {% for question in questions %}
+      <fieldset class="panel" style="margin-top:1rem;box-shadow:none">
+        <legend><strong>{{ forloop.counter }}. {{ question.text }}</strong> ({{ question.points }} ball)</legend>
+        {% for choice in question.choices.all %}
+          <label class="check-inline" style="display:flex;margin:0.4rem 0">
+            <input type="radio" name="q_{{ question.pk }}" value="{{ choice.pk }}" required />
+            <span>{{ choice.text }}</span>
+          </label>
+        {% empty %}
+          <p>Variant yo‘q.</p>
+        {% endfor %}
+      </fieldset>
+    {% empty %}
+      <p>Savol yo‘q.</p>
+    {% endfor %}
+    {% if questions %}
+      <button class="btn btn-primary" type="submit" style="margin-top:1rem">Yuborish</button>
+    {% endif %}
+    <a class="text-link" href="{% url 'portal:student_exams' %}">Orqaga</a>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}Arizalar — Admin{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">CMS</p>
+      <h2>Kelgan arizalar</h2>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Sana</th>
+          <th>Ism</th>
+          <th>Telefon</th>
+          <th>Email</th>
+          <th>Kurs</th>
+          <th>Izoh</th>
+          <th>Holat</th>
+          <th>Amallar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for lead in leads %}
+          <tr>
+            <td>{{ lead.created_at|date:"d.m.Y H:i" }}</td>
+            <td>{{ lead.name }}</td>
+            <td>{{ lead.phone }}</td>
+            <td>{{ lead.email|default:"—" }}</td>
+            <td>{{ lead.course_interest|default:"—" }}</td>
+            <td>{{ lead.message|default:"—"|truncatechars:60 }}</td>
+            <td>{% if lead.is_contacted %}Bog‘lanilgan{% else %}Yangi{% endif %}</td>
+            <td class="actions">
+              <form method="post" action="{% url 'portal:admin_lead_toggle' lead.pk %}">
+                {% csrf_token %}
+                <button class="btn-mini {% if lead.is_contacted %}ghost{% endif %}" type="submit">
+                  {% if lead.is_contacted %}Yangi qilish{% else %}Bog‘lanildi{% endif %}
+                </button>
+              </form>
+              <form method="post" action="{% url 'portal:admin_lead_delete' lead.pk %}" onsubmit="return confirm('O‘chirishni tasdiqlaysizmi?');">
+                {% csrf_token %}
+                <button class="btn-mini ghost" type="submit">O‘chirish</button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="8">Ariza yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}Bildirishnomalar — Admin{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div><p class="eyebrow">System</p><h2>Bildirishnomalar</h2></div>
+    <a class="btn btn-primary" href="{% url 'portal:admin_notification_create' %}">+ Yuborish</a>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Qabul qiluvchi</th><th>Sarlavha</th><th>O‘qilgan</th><th>Sana</th><th>Amallar</th></tr></thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{% if item.recipient.profile %}{{ item.recipient.profile.display_name }}{% else %}{{ item.recipient.username }}{% endif %}</td>
+            <td>{{ item.title }}</td>
+            <td>{% if item.is_read %}Ha{% else %}Yo‘q{% endif %}</td>
+            <td>{{ item.created_at|date:"d.m.Y H:i" }}</td>
+            <td class="actions">
+              <form method="post" action="{% url 'portal:admin_notification_delete' item.pk %}" onsubmit="return confirm('O‘chirishni tasdiqlaysizmi?');">
+                {% csrf_token %}<button class="btn-mini ghost" type="submit">O‘chirish</button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5">Bildirishnoma yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

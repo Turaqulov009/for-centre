@@ -1,0 +1,33 @@
+{% extends "portal/admin/admin_base.html" %}
+{% block title %}O‘qituvchilar — Admin{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div><p class="eyebrow">Learning</p><h2>O‘qituvchilar</h2></div>
+    <a class="btn btn-primary" href="{% url 'portal:admin_teacher_create' %}">+ Yangi</a>
+  </div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Ism</th><th>Mutaxassislik</th><th>Landing</th><th>Holat</th><th>Amallar</th></tr></thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{{ item.full_name }}</td>
+            <td>{{ item.specialty|default:"—" }}</td>
+            <td>{% if item.show_on_landing %}Ha{% else %}Yo‘q{% endif %}</td>
+            <td>{% if item.is_active %}Aktiv{% else %}Yashirin{% endif %}</td>
+            <td class="actions">
+              <a class="btn-mini" href="{% url 'portal:admin_teacher_edit' item.pk %}">Tahrirlash</a>
+              <form method="post" action="{% url 'portal:admin_teacher_delete' item.pk %}" onsubmit="return confirm('O‘chirishni tasdiqlaysizmi?');">
+                {% csrf_token %}<button class="btn-mini ghost" type="submit">O‘chirish</button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5">O‘qituvchi yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,30 @@
+<a class="sidebar-link {% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}" href="{% url 'portal:student_dashboard' %}">
+  <i class="fa-solid fa-house"></i><span>Asosiy</span>
+</a>
+<a class="sidebar-link {% if 'course' in request.resolver_match.url_name or 'lesson' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:student_courses' %}">
+  <i class="fa-solid fa-graduation-cap"></i><span>Kurslarim</span>
+</a>
+<a class="sidebar-link {% if 'homework' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:student_homeworks' %}">
+  <i class="fa-solid fa-rocket"></i><span>Vazifalar</span>
+</a>
+<a class="sidebar-link {% if 'quiz' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:student_quizzes' %}">
+  <i class="fa-solid fa-list-check"></i><span>Quiz</span>
+</a>
+<a class="sidebar-link {% if 'exam' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:student_exams' %}">
+  <i class="fa-solid fa-file-circle-check"></i><span>Imtihonlar</span>
+</a>
+<a class="sidebar-link {% if request.resolver_match.url_name == 'student_results' %}active{% endif %}" href="{% url 'portal:student_results' %}">
+  <i class="fa-solid fa-trophy"></i><span>Natijalar</span>
+</a>
+<a class="sidebar-link {% if request.resolver_match.url_name == 'student_progress' %}active{% endif %}" href="{% url 'portal:student_progress' %}">
+  <i class="fa-solid fa-chart-line"></i><span>Progress</span>
+</a>
+<a class="sidebar-link {% if 'certificate' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:student_certificates' %}">
+  <i class="fa-solid fa-certificate"></i><span>Sertifikatlar</span>
+</a>
+<a class="sidebar-link {% if 'notification' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'portal:student_notifications' %}">
+  <i class="fa-solid fa-bell"></i><span>Xabarlar</span>
+</a>
+<a class="sidebar-link {% if request.resolver_match.url_name == 'student_profile' %}active{% endif %}" href="{% url 'portal:student_profile' %}">
+  <i class="fa-solid fa-user-astronaut"></i><span>Profil</span>
+</a>

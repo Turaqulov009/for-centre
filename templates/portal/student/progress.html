@@ -1,0 +1,28 @@
+{% extends "portal/student/student_base.html" %}
+{% block title %}Progress — Student{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head"><div><p class="eyebrow">Learning</p><h2>Progress</h2></div></div>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Kurs</th><th>Progress</th><th></th></tr></thead>
+      <tbody>
+        {% for e in enrollments %}
+          <tr>
+            <td>{{ e.course.title }}</td>
+            <td>
+              <div class="progress-bar" aria-label="{{ e.progress_percent }}%">
+                <span style="width:{{ e.progress_percent }}%"></span>
+              </div>
+              {{ e.progress_percent }}%
+            </td>
+            <td><a class="btn-mini" href="{% url 'portal:student_course_detail' e.course_id %}">Ochish</a></td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="3">Kurs yo‘q.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

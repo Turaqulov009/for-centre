@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ro‘yxatdan o‘tish — FOR CENTRE</title>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Oxanium:wght@600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}" />
+</head>
+<body class="login-body">
+  <div class="login-card">
+    <a class="brand" href="{% url 'portal:landing' %}">
+      <span class="brand-mark">FC</span>
+      <span class="brand-text">FOR <strong>CENTRE</strong></span>
+    </a>
+    <h1>Ro‘yxatdan o‘tish</h1>
+    <p class="login-lead">Student akkaunt yarating. Keyin emailni tasdiqlang.</p>
+    {% if messages %}{% for message in messages %}<div class="flash flash-{{ message.tags }}">{{ message }}</div>{% endfor %}{% endif %}
+    <form method="post" class="contact-form login-form">
+      {% csrf_token %}
+      <label>To‘liq ism {{ form.full_name }}{% if form.full_name.errors %}<span class="field-error">{{ form.full_name.errors.0 }}</span>{% endif %}</label>
+      <label>Telefon {{ form.phone }}{% if form.phone.errors %}<span class="field-error">{{ form.phone.errors.0 }}</span>{% endif %}</label>
+      <label>Email {{ form.email }}{% if form.email.errors %}<span class="field-error">{{ form.email.errors.0 }}</span>{% endif %}</label>
+      <label>Parol {{ form.password1 }}{% if form.password1.errors %}<span class="field-error">{{ form.password1.errors.0 }}</span>{% endif %}</label>
+      <label>Parolni tasdiqlang {{ form.password2 }}{% if form.password2.errors %}<span class="field-error">{{ form.password2.errors.0 }}</span>{% endif %}</label>
+      {% if form.non_field_errors %}<p class="form-status is-error">{{ form.non_field_errors.0 }}</p>{% endif %}
+      <button class="btn btn-primary" type="submit">Ro‘yxatdan o‘tish</button>
+    </form>
+    <p class="auth-switch">Akkountingiz bormi? <a href="{% url 'accounts:login' %}">Kirish</a></p>
+  </div>
+</body>
+</html>

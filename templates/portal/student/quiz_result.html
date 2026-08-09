@@ -1,0 +1,16 @@
+{% extends "portal/student/student_base.html" %}
+{% block title %}Natija — Quiz{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">{{ attempt.quiz.course }}</p>
+      <h2>{{ attempt.quiz.title }}</h2>
+    </div>
+  </div>
+  <p class="welcome-lead">Natija: <strong>{{ attempt.score }} / {{ attempt.max_score }}</strong></p>
+  <p class="login-lead">{{ attempt.finished_at|date:"d.m.Y H:i" }}</p>
+  <a class="btn btn-primary" href="{% url 'portal:student_quizzes' %}">Quizlarga</a>
+  <a class="btn-mini" href="{% url 'portal:student_results' %}">Barcha natijalar</a>
+</section>
+{% endblock %}
