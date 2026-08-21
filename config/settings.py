@@ -77,6 +77,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"  
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
@@ -90,5 +91,8 @@ LOGOUT_REDIRECT_URL = "accounts:login"
 # Email — Bosqich 2 da sozlanadi (verification / reset)
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = "noreply@forcentre.local"
+
+
+
 
 
