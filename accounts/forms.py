@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.forms import AuthenticationForm, SetPasswordForm
 from django.contrib.auth.password_validation import validate_password
+from learning.models import Course
 
 from .models import Role
 
@@ -263,3 +264,15 @@ class AdminSetPasswordForm(forms.Form):
         widget=forms.PasswordInput,
         min_length=4,
     )
+
+
+courses = forms.ModelMultipleChoiceField(
+    label="Kursga biriktirish (Student uchun)",
+    queryset=Course.objects.all().order_by("title"),
+    required=False,
+    widget=forms.SelectMultiple(attrs={"size": 6}),
+    help_text=(
+        "Faqat role=Student bo‘lsa ishlaydi. Tanlangan kurslarga student "
+        "avtomatik ro‘yxatga olinadi (Enrollment yaratiladi)."
+    ),
+)
